@@ -1,8 +1,20 @@
 import {Error, Loader, SongCard} from "../components";
 import {genres} from '../assets/constants';
+import {useGetTopChartsQuery} from '../redux/services/shazamCore';
 
 const Discover = () => {
+    const {data, //result of api call
+           isFetching, // allow to know if currently fetching so can show loading state
+           error // allow konw if error happened
+        } = useGetTopChartsQuery();
+
     const genreTitle = 'Pop';
+
+    //if currently fetching will return a loading component
+    if(isFetching) return <Loader title='Loading songs...'/>;
+    
+    //if an error occurs return the error component
+    if(error) return <Error/>
 
     return (
         <div className="flex flex-col">
@@ -19,7 +31,8 @@ const Discover = () => {
                 </select>
             </div>
             <div className="flex flex-wrap sm:justify-start justify-center gap-8">
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((song, i) => (<SongCard
+                {/* map data from shazam core api if it eists */}
+                {data?.map((song, i) => (<SongCard
                     key={song.key}
                     song={song}
                     i={i}                    
