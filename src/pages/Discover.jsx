@@ -1,8 +1,12 @@
+import { useDispatch, useSelector } from "react-redux";
 import {Error, Loader, SongCard} from "../components";
 import {genres} from '../assets/constants';
 import {useGetTopChartsQuery} from '../redux/services/shazamCore';
 
 const Discover = () => {
+    const dispatch = useDispatch();
+    const {activeSong, isPlaying} = useSelector((state) => state.player // pull player info from entire state
+    );
     const {data, //result of api call
            isFetching, // allow to know if currently fetching so can show loading state
            error // allow konw if error happened
@@ -33,9 +37,12 @@ const Discover = () => {
             <div className="flex flex-wrap sm:justify-start justify-center gap-8">
                 {/* map data from shazam core api if it eists */}
                 {data?.map((song, i) => (<SongCard
-                    key={song.key}
-                    song={song}
-                    i={i}                    
+                    key={song.key} //lets React know what song we are showing
+                    song={song} // song as props
+                    i={i} // index as props 
+                    activeSong={activeSong}
+                    isPlaying={isPlaying}   
+                    data={data}          
                     />
                 ))}
             </div>
