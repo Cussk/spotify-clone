@@ -10,8 +10,6 @@ const AroundYou = () => {
     const {activeSong, isPlaying} = useSelector((state) => state.player);
     const {data, isFetching, error} = useGetSongsByCountryQuery(country);
 
-    console.log(country)
-
     useEffect(() => {
         axios
         .get(`https://geo.ipify.org/api/v2/country?apiKey=at_LNq07L2MoyCgkXFQF2TDsEvPBRomr&`)
